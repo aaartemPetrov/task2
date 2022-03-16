@@ -23,3 +23,19 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('homePage', () => {
+    cy.visit('/');
+})
+
+Cypress.Commands.add('amazonLogin', (email, password) => {
+    cy.homePage();
+    cy.get('#nav-link-accountList').trigger('mouseover');
+    cy.contains('a', 'Sign in').click();
+    cy.get('#ap_email').clear().type(email);
+    cy.get('#continue').click();
+    cy.get('#ap_password').clear().type(password);
+    cy.get('#signInSubmit').click();
+    cy.get('#nav-item-signout').should('contain', 'Sign Out');
+    cy.log('LOGINNED IN!!!')
+})
